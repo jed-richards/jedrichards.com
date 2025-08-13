@@ -14,6 +14,9 @@
         in {
           default = pkgs.mkShell {
             packages = [
+              # (pkgs.nodePackages_latest.nodejs.overrideAttrs
+              #   (final: prev: { enableNpm = false; })) # NodeJS without NPM
+              pkgs.nodePackages_latest.nodejs
               pkgs.nodePackages_latest.prettier
               pkgs.pnpm
               pkgs.typescript
