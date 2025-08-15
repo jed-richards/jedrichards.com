@@ -1,0 +1,20 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jedrichards",
+  "compatibility_date": "2025-08-13",
+  "assets": {
+    "directory": "./dist/",
+  },
+  "build": {
+    "command": "pnpm run build",
+    "cwd": ".",
+    "watch_dir": "./src",
+  },
+  "observability": {
+    "enabled": true,
+  },
+}
