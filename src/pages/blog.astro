@@ -1,8 +1,9 @@
 ---
 import BaseLayout from "../layouts/Base.astro";
+import Posts from "../components/Posts.astro";
 import { type MarkdownInstance } from "astro";
 
-type FrontMatter = {
+export type FrontMatter = {
   title: string;
   author: string;
   pubDate: string;
@@ -22,12 +23,5 @@ const allPosts: MarkdownInstance<FrontMatter>[] = Object.values(
 
 <BaseLayout title={title}>
   <p>This is where I will post about my journey learning Astro.</p>
-  {
-    allPosts.map((post) => (
-      <li>
-        <a href={post.url}>{post.frontmatter.title}</a>
-        <em>({post.frontmatter.tags.join(", ")})</em>
-      </li>
-    ))
-  }
+  <Posts posts={allPosts} />
 </BaseLayout>

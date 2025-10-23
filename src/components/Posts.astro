@@ -1,0 +1,19 @@
+---
+import BlogPost from "./BlogPost.astro";
+import { type MarkdownInstance } from "astro";
+import { type FrontMatter } from "../pages/blog.astro";
+
+interface Props {
+  posts: MarkdownInstance<FrontMatter>[];
+}
+
+const { posts } = Astro.props;
+---
+
+<ul>
+  {
+    posts.map((post) => (
+      <BlogPost url={post.url} title={post.frontmatter.title} />
+    ))
+  }
+</ul>
