@@ -1,14 +1,33 @@
 ---
 import BaseLayout from "../layouts/Base.astro";
+import { type MarkdownInstance } from "astro";
+
+type FrontMatter = {
+  title: string;
+  author: string;
+  pubDate: string;
+  description: string;
+  image: {
+    url: string;
+    alt: string;
+  };
+  tags: string[];
+};
 
 const title = "My Astro Learning Blog";
+const allPosts: MarkdownInstance<FrontMatter>[] = Object.values(
+  import.meta.glob("./posts/*.md", { eager: true }),
+);
 ---
 
 <BaseLayout title={title}>
   <p>This is where I will post about my journey learning Astro.</p>
-  <ul>
-    <li><a href="/posts/post-1/">Post 1</a></li>
-    <li><a href="/posts/post-2/">Post 2</a></li>
-    <li><a href="/posts/post-3/">Post 3</a></li>
-  </ul>
+  {
+    allPosts.map((post) => (
+      <li>
+        <a href={post.url}>{post.frontmatter.title}</a>
+        <em>({post.frontmatter.tags.join(", ")})</em>
+      </li>
+    ))
+  }
 </BaseLayout>
