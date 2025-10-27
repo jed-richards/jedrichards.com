@@ -1,8 +1,8 @@
 ---
-import BaseLayout from "../layouts/Base.astro";
-import { type MarkdownLayoutProps } from "astro";
+import BaseLayout from "../../layouts/Base.astro";
+import { type MarkdownInstance } from "astro";
 
-type Props = MarkdownLayoutProps<{
+export type FrontMatter = {
   title: string;
   author: string;
   pubDate: string;
@@ -12,29 +12,25 @@ type Props = MarkdownLayoutProps<{
     alt: string;
   };
   tags: string[];
-}>;
+};
 
-const { frontmatter } = Astro.props;
+const posts: MarkdownInstance<FrontMatter>[] = Object.values(
+  import.meta.glob("../posts/*.md", { eager: true }),
+);
+const tags = [...new Set(posts.flatMap((post) => post.frontmatter.tags))];
+const title = "Tag Index";
 ---
 
-<BaseLayout title={frontmatter.title}>
-  <p>Published on: {frontmatter.pubDate.split("T")[0]}</p>
-  <p>Written by {frontmatter.author}</p>
-  <p><em>{frontmatter.description}</em></p>
-  <p>Written by: {frontmatter.author}</p>
-  <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
-
+<BaseLayout title={title}>
   <div class="tags">
     {
-      frontmatter.tags.map((tag) => (
+      tags.map((tag) => (
         <p class="tag">
           <a href={`/tags/${tag}`}>{tag}</a>
         </p>
       ))
     }
   </div>
-
-  <slot />
 </BaseLayout>
 
 <style>
